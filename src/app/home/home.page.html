@@ -13,8 +13,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="onGotoLoginClick()" expand="block"  shape="round" color="tertiary">
+          go to login
+        </ion-button>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
 </ion-content>

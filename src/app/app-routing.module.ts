@@ -11,6 +11,14 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'oauth/callback',
+    loadChildren: () => import('./oauth/callback/callback.module').then( m => m.CallbackPageModule)
+  },
+  {
+    path: 'pastexam',
+    loadChildren: () => import('./pastexam/pastexam.module').then( m => m.PastexamPageModule)
+  }
 ];
 
 @NgModule({
