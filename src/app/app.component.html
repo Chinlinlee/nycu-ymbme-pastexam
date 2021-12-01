@@ -1,3 +1,15 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="main" [disabled]="disableSplitPane">
+    <ion-menu contentId="main" menuId="menu-content" side="start" type="overlay">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>MENU</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        start
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>
