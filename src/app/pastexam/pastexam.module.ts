@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { PastexamPageRoutingModule } from './pastexam-routing.module';
 
 import { PastexamPage } from './pastexam.page';
+import { TopBarModule } from '../components/top-bar/top-bar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TopBarModule,
     PastexamPageRoutingModule
   ],
-  declarations: [PastexamPage]
+  declarations: [
+    PastexamPage
+  ]
 })
 export class PastexamPageModule {}

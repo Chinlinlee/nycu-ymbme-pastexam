@@ -16,7 +16,7 @@ export class PastexamPage implements OnInit {
     email: ""
   };
   constructor(
-    private route: Router,
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private nycuService: NycuService
   ) { }
@@ -25,14 +25,14 @@ export class PastexamPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.nycuService.getProfile().subscribe(
-      (data: INYCUUser) => {
-        this.user = data;
-        this.cdr.detectChanges();
-      },
-      (err) => {
-        this.route.navigate(["home"]);
-      }
-    )
+    // this.nycuService.getProfile().subscribe(
+    //   (data: INYCUUser) => {
+    //     this.user = data;
+    //     this.cdr.detectChanges();
+    //   },
+    //   (err) => {
+    //     this.router.navigate(["home"]);
+    //   }
+    // )
   }
 }

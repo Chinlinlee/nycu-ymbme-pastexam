@@ -1,27 +1,61 @@
-#container {
-  text-align: center;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+// .main-content {
+//   margin-top: 30%;
+// }
+
+.side-nav {
+  background-color: #57A6AA;
+  height: 100%;
+  overflow-x: hidden;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.ymbme-logo {
+  background-image: url('../../assets/images/ymbme-logo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  margin:auto;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.login-main-text {
+  margin-top: 40%;
+  padding: 60px;
+  color: #fff;
 }
 
-#container a {
-  text-decoration: none;
+// @media screen and (max-width:450px) {
+//   .side-nav {
+//     padding-top: 15px;
+//   }
+// }
+@media screen  and (max-width: 768px) {
+  .side-nav {
+    height: auto;
+  }
+  .login-main-text { 
+    margin-top: 10px;
+    text-align: center;
+  }
+  .main-content {
+    padding-top: 10%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main-content {
+    padding-left: 40%;
+    padding-top: 25%;
+  }
+  .side-nav{
+    width: 40%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    margin-top: 55px;
+  }
 }
