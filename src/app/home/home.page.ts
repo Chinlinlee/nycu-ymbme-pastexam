@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { loginConfig } from '../login.config';
 
 @Component({
@@ -9,7 +10,11 @@ import { loginConfig } from '../login.config';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(
+    private menuController: MenuController
+  ) {
+    this.menuController.enable(false, "menu-content");
+  }
 
   onGotoLoginClick() {
     const params = [
