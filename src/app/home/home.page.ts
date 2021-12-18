@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { loginConfig } from '../login.config';
+import { myConfig } from '../config';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,7 @@ export class HomePage {
 
   onGotoLoginClick() {
     const params = [
-      `client_id=${loginConfig.client_id}`,
+      `client_id=${myConfig.LOGIN.client_id}`,
       `response_type=code`,
       `scope=profile`
     ]
