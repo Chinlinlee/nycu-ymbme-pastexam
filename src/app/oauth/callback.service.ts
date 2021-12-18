@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { INYCUToken } from 'src/models/nycu.token.model';
+import { myConfig } from '../config';
 import { loginConfig } from '../login.config';
 
 
@@ -22,6 +23,10 @@ export class CallbackService {
     requestFormData.append("client_secret", loginConfig.client_secret);
     requestFormData.append("redirect_uri", loginConfig.redirect_uri);
     return this.http.post(`https://id.nycu.edu.tw/o/token/`, requestFormData);
+  }
+
+  postTempNYCUAccessToken(token: INYCUToken) {
+    return this.http.post(`${myConfig.ENV.apiBase}/token`,  token);
   }
 
 }
