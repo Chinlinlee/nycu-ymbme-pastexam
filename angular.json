@@ -31,8 +31,8 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": [],
+            "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/sweetalert2/dist/sweetalert2.min.css"],
+            "scripts": ["node_modules/sweetalert2/dist/sweetalert2.all.min.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
