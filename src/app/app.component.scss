@@ -1,3 +1,29 @@
 .split-pane-visible >.split-pane-side {
     max-width: 10%!important;
 }
+
+.my-menu {
+    --width: 240px;
+}
+
+.un-open-caret-outline {
+    transition:  all 0.3s ease 0s;
+}
+.opened-caret-outline {
+    transition:  all 0.3s ease 0s;
+    transform: rotate(-90deg);
+}
+
+.side-menu-course-name {
+    padding-left: 2rem;
+}
+
+.active-link {
+    --background: rgba(var(--ion-color-primary-rgb), 0.14);
+    font-weight: bold;
+}
+
+.side-menu-item {
+    --background-hover: var(--ion-color-tertiary, #5260ff);
+    --background-hover-opacity: 0.3;
+}

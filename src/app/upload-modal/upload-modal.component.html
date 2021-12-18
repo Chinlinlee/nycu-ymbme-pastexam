@@ -1,0 +1,85 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>上傳</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalDismiss();">
+                <ion-icon slot="start" name="close"></ion-icon>
+                Close
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid fixed>
+        <ion-row class="ion-padding-top">
+            <ion-col sizeLg="2" sizeSm="12" sizeXs="12">
+                <ng-select [items]="semNo" placeholder="選擇學年度*" [(ngModel)]="selectedSemNo">
+                </ng-select>
+            </ion-col>
+
+            <ion-col sizeLg="3" sizeSm="12" sizeXs="12">
+                <ng-select [items]="category" placeholder="選擇類型*" [(ngModel)]="selectedCategory">
+                </ng-select>
+            </ion-col>
+
+            <ion-col sizeLg="4" sizeSm="12" sizeXs="12">
+                <ng-select [items]="courseList" bindLabel="name" placeholder="選擇課程*" [(ngModel)]="selectedCourse"
+                    (change)="onSelectedCourseChange()">
+                </ng-select>
+            </ion-col>
+
+            <ion-col sizeLg="3" sizeSm="12" sizeXs="12">
+                <ng-select [items]="teacherList" placeholder="選擇老師*" [multiple]="true" [(ngModel)]="selectedTeacher">
+                    <ng-template ng-header-tmp>
+                        <ion-button expand="full" fill="solid" shape="" color="medium">
+                            全選
+                        </ion-button>
+                        <ion-button expand="full" fill="solid" shape="" color="medium"
+                            (click)="clearSelectedTeacher();">
+                            清除
+                        </ion-button>
+                    </ng-template>
+                </ng-select>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-item class="rounded-input">
+                    <ion-label position="floating" class="ion-margin-bottom">描述：</ion-label>
+                    <ion-textarea [(ngModel)]="description"></ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <div class="file-upload-region" [class.active]="isFileUploadRegionActive"
+                    (dragover)="onDragOver($event)" (drop)="onDrop($event)" (dragleave)="onDragLeave($event)">
+                    <input type="file" class="input-browse-file" (change)="onSelectedFile($event);" />
+                    <h3 class="input-browse-file-text">拖曳檔案或點擊選取檔案上傳(*.png, *.jpg, *.zip, *.pdf)</h3>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-item *ngIf="selectedFile" lines="none">
+                    <ion-label>
+                        {{ selectedFile.name }}
+                        <ion-progress-bar *ngIf="uploadRes.progressNum!=1" [value]="uploadRes.progress"
+                            class="ion-margin-top"></ion-progress-bar>
+                    </ion-label>
+                    <ion-icon slot="start" name="close-circle" style="cursor: pointer;"
+                        (click)="onBtnCancelSelectedFile();" *ngIf="uploadRes.progressNum!=1"></ion-icon>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-button expand="block" fill="solid" shape="round" color="secondary" class="btn-upload"
+                    (click)="onBtnUploadClick();">
+                    上傳
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

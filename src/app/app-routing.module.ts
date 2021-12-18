@@ -18,6 +18,14 @@ const routes: Routes = [
   {
     path: 'pastexam',
     loadChildren: () => import('./pastexam/pastexam.module').then( m => m.PastexamPageModule)
+  },
+  {
+    path: 'pastexam/:courseId',
+    loadChildren: () => import('./pastexam/pastexam.module').then( m => m.PastexamPageModule)
+  },
+  {
+    path: 'user-file-list',
+    loadChildren: () => import('./user-file-list/user-file-list.module').then( m => m.UserFileListPageModule)
   }
 ];
 

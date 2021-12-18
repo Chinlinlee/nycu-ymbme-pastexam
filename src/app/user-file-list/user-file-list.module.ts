@@ -4,23 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PastexamPageRoutingModule } from './pastexam-routing.module';
+import { UserFileListPageRoutingModule } from './user-file-list-routing.module';
 
-import { PastexamPage } from './pastexam.page';
+import { UserFileListPage } from './user-file-list.page';
 import { TopBarModule } from '../components/top-bar/top-bar.module';
-import { UploadModalModule } from '../upload-modal/upload-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TopBarModule,
-    UploadModalModule,
-    PastexamPageRoutingModule
+    UserFileListPageRoutingModule,
+    TopBarModule
   ],
-  declarations: [
-    PastexamPage
-  ]
+  declarations: [UserFileListPage]
 })
-export class PastexamPageModule {}
+export class UserFileListPageModule {}
