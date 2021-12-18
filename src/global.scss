@@ -24,3 +24,65 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// https://stackoverflow.com/questions/30578889/how-to-make-rounded-input-field-in-ionic
+.rounded-input {
+    // border: 0;
+    // --border-color: var(--ion-color-medium-shade);
+    --border-radius: 3px;
+    --border-width: 1px;
+    --box-shadow: 2px gray;
+    --highlight-height: 0;
+    --background: rgb(240, 240, 240);
+
+
+    &.item-has-focus {
+        --background-focused: rgb(255, 255, 255);
+        --border-color: var(--ion-color-tertiary-tint);
+        --background: rgb(255, 255, 255);
+    }
+
+    &.item-has-value {
+        --background: rgb(255, 255, 255);
+    }
+
+    ion-label {
+        color: gray !important;
+    }
+
+    .ion-invalid {
+        .item-has-focus {
+            --border-color: var(--ion-color-danger-shade);
+        }
+    }
+
+}
+@media screen and (min-width: 768px){
+    .upload-modal .modal-wrapper.sc-ion-modal-md{
+        --width: 75%;
+    }
+}
+
+body {
+    padding-top: 50px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark mode variables go here */
+        .ng-select-container {
+            background: rgba(123, 123, 123, 0.34);
+            border: 1px solid gray !important;
+        }
+        .rounded-input {
+            --ion-text-color: rgb(239, 239, 241);
+            --ion-text-color-rgb: 255, 255, 255;
+            --background: rgba(255, 255, 255, 0.2);
+            &.item-has-focus,
+            &.item-has-value {
+                --background: rgba(123, 123, 123, 0.34);
+            }
+        }
+    }
+}
