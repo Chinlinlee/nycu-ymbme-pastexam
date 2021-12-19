@@ -94,6 +94,7 @@ export class UserFileListPage implements OnInit {
         (profile)=> {
           this.user = (profile as INYCUUser);
           this.sharedService.setUserItem(this.user);
+          this.getUserPastexamAndNoteList();
         },
         (err) => {
           this.router.navigate(["home"]);
@@ -115,7 +116,7 @@ export class UserFileListPage implements OnInit {
       }
     }).unsubscribe();
 
-    this.getUserPastexamAndNoteList();
+    
 
     this.isMobileSubscription = this.sharedService.isMobileItem$.subscribe({
       next: (isMobile)=> {
@@ -141,4 +142,8 @@ export class UserFileListPage implements OnInit {
     this.isMobileSubscription.unsubscribe();
   }
 
+  doRefresh(event) {
+    window.location.reload();
+  }
+  
 }

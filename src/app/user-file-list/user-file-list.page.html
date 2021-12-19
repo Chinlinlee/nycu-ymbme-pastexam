@@ -1,5 +1,8 @@
 <app-top-bar></app-top-bar>
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-card>
         <ion-card-header>
             <ion-card-title class="ion-text-center">我的檔案列表</ion-card-title>
