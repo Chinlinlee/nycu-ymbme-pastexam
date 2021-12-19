@@ -96,7 +96,7 @@ export class UploadModalComponent implements OnInit {
     this.formData.append("teachersName", this.selectedTeacher.join("、"));
     this.formData.append("courseId" , "");
     this.formData.append("category" , "");
-    this.formData.set("description" , "");
+    this.formData.append("description" , "");
     this.formData.append("file", "");
     let nowSem = new Date().getFullYear() - 1911;
     this.semNo = [];
@@ -135,8 +135,48 @@ export class UploadModalComponent implements OnInit {
     this.selectedFile = null;
     this.formData.set("file", null);
   }
+  checkFormValue () {
+    let needCheckFields = [
+      {
+        name: "selectedSemNo",
+        message: "請選擇學年度"
+      }, 
+      {
+        name: "selectedCategory",
+        message: "請選擇類型"
+      },
+      {
+        name: "selectedCourse",
+        message: "請選擇課程"
+      },  
+      {
+        name: "selectedFile",
+        message: "請選擇檔案"
+      }
+    ];
+    for (let i = 0 ; i< needCheckFields.length ; i++) {
+      if (!this[needCheckFields[i].name]) {
+        return {
+          status: false,
+          message: needCheckFields[i].message
+        };
+      }
+    }
+    if (this.selectedTeacher.length == 0 ) {
+      return {
+        status: false,
+        message: "請選擇老師"
+      };
+    }
+    return {
+      status: true,
+      message: ""
+    };
+  }
   onBtnUploadClick() {
-    if (!this.selectedFile) {
+    let checkFormValueResult = this.checkFormValue();
+    if (!checkFormValueResult.status) {
+      console.log(checkFormValueResult)
       const myToast = Swal.mixin({
         toast: true,
         position: "top-start",
@@ -145,7 +185,8 @@ export class UploadModalComponent implements OnInit {
         showConfirmButton: false
       });
       myToast.fire({
-        title: "請選擇檔案"
+        icon: "error",
+        title: checkFormValueResult.message
       });
       return;
     }
