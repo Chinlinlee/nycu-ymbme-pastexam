@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { timeoutWith } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { INYCUUser } from '../../models/nycu.user.model';
 import { CourseService } from '../../services/course.service';
@@ -19,10 +20,15 @@ import { UserFileListService } from './user-file-list.service';
 export class UserFileListPage implements OnInit {
 
 
-  user: INYCUUser;
-  userPastexamAndNoteList: Array<IPastexam>;
+  user: INYCUUser = {
+    username: "",
+    email: "",
+  };
+  userPastexamAndNoteList: Array<IPastexam> = [];
 
   isMobile: boolean = false;
+  isMobileSubscription: Subscription;
+  isUploadFileChangedSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -34,46 +40,26 @@ export class UserFileListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sharedService.isMobileItem$.subscribe({
-      next: (isMobile)=> {
-        this.isMobile = isMobile;
-      }
-    });
+
     if (!myConfig.ENV.isProduction) {
       this.user = {
         username: "1234",
         email: "1234"
       }
     }
-    this.getUserPastexamAndNoteList();
-    this.sharedService.courseItem$.subscribe({
-      next: (data)=> {
-        if (!(data as Array<any>).length) {
-          this.courseService.getAllCourse()
-          .subscribe({
-            next: (courseData)=> {
-              this.sharedService.setCourseItem(courseData);
-            }
-          });
-        }
-      }
-    }).unsubscribe();
-    this.sharedService.isUploadFileFinished$.subscribe({
-      next : (isUploadFileFinished)=> {
-        if (isUploadFileFinished) {
-          this.getUserPastexamAndNoteList();
-        }
-      }
-    });
+
   }
 
   getUserPastexamAndNoteList() {
-    this.UserFileListService.getPastexamByUploader(this.user.username).subscribe({
+    if (!this.user.username) return;
+    this.UserFileListService.getPastexamByUploader(this.user.username)
+    .subscribe({
       next: (data)=> {
         this.userPastexamAndNoteList = data.map(v=> {
           v["isShowMore"] = false;
           return v;
         });
+        this.sharedService.setIsUploadFileChanged(false);
       }
     });
   }
@@ -95,28 +81,64 @@ export class UserFileListPage implements OnInit {
       if (result.isConfirmed) {
         this.UserFileListService.deletePastexamByUploader(this.user.username, pastexam.uploadedDataId).subscribe({
           next: ()=> {
-            this.getUserPastexamAndNoteList();
+            this.sharedService.setIsUploadFileChanged(true);
           }
         })
       }
   }
 
   ionViewDidEnter() {
+    //get user profile and get user uploaded files
     if (myConfig.ENV.isProduction) {
       this.tokenService.getTokenStatus().subscribe(
         (profile)=> {
           this.user = (profile as INYCUUser);
           this.sharedService.setUserItem(this.user);
-          this.UserFileListService.getPastexamByUploader(this.user.username).subscribe({
-            next: (userFileList)=> {
-              this.userPastexamAndNoteList = userFileList;
-            }
-          })
         },
         (err) => {
           this.router.navigate(["home"]);
         }
       )
     }
+
+    //get course items when course items empty
+    this.sharedService.courseItem$.subscribe({
+      next: (data)=> {
+        if (!(data as Array<any>).length) {
+          this.courseService.getAllCourse()
+          .subscribe({
+            next: (courseData)=> {
+              this.sharedService.setCourseItem(courseData);
+            }
+          });
+        }
+      }
+    }).unsubscribe();
+
+    this.getUserPastexamAndNoteList();
+
+    this.isMobileSubscription = this.sharedService.isMobileItem$.subscribe({
+      next: (isMobile)=> {
+        this.isMobile = isMobile;
+      }
+    });
+
+    //listen isUploadFileChanged
+    //refresh data after uploading, deleting
+    this.isUploadFileChangedSubscription = this.sharedService.isUploadFileChanged$
+    .subscribe({
+      next : (isUploadFileChanged)=> {
+        if (isUploadFileChanged) {
+          this.getUserPastexamAndNoteList();
+        }
+      }
+    });
+
   }
+
+  ionViewDidLeave() {
+    this.isUploadFileChangedSubscription.unsubscribe();
+    this.isMobileSubscription.unsubscribe();
+  }
+
 }

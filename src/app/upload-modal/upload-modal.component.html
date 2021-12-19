@@ -31,7 +31,7 @@
             <ion-col sizeLg="3" sizeSm="12" sizeXs="12">
                 <ng-select [items]="teacherList" placeholder="選擇老師*" [multiple]="true" [(ngModel)]="selectedTeacher">
                     <ng-template ng-header-tmp>
-                        <ion-button expand="full" fill="solid" shape="" color="medium">
+                        <ion-button expand="full" fill="solid" shape="" color="medium" (click)="selectAllTeachers();">
                             全選
                         </ion-button>
                         <ion-button expand="full" fill="solid" shape="" color="medium"

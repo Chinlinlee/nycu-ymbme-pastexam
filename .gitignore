@@ -32,3 +32,6 @@ npm-debug.log*
 
 /src/app/login.config.ts
 /src/app/config.ts
+/src/app/config.production.ts
+
+/android

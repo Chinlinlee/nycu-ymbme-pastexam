@@ -108,12 +108,14 @@ export class UploadModalComponent implements OnInit {
       next: (user:INYCUUser )=> {
         this.user = user;
       }
-    })
+    });
   }
 
   onSelectedCourseChange(): void {
     this.clearSelectedTeacher();
-    this.teacherList = this.selectedCourse.teachers.split("、");
+    if (this.selectedCourse) {
+      this.teacherList = this.selectedCourse.teachers.split("、");
+    }
   }
 
   modalDismiss() {
@@ -122,6 +124,11 @@ export class UploadModalComponent implements OnInit {
 
   clearSelectedTeacher () {
     this.selectedTeacher = [];
+  }
+
+  selectAllTeachers() {
+    
+    this.selectedTeacher = [...this.teacherList];
   }
 
   onBtnCancelSelectedFile() {
@@ -165,13 +172,13 @@ export class UploadModalComponent implements OnInit {
         if (this.uploadRes.semNo) {
           Swal.fire({
             icon: 'success',
-            text: "上傳成功"
+            text: "上傳成功",
+            backdrop: false
           })
           this.selectedFile = null;
           this.modalDismiss();
+          this.sharedService.setIsUploadFileChanged(true);
         }
-        this.sharedService.setIsUploadFileFinished(true);
-        this.cdr.detectChanges();
       },
       error: (err) => {
         Swal.fire({
@@ -180,7 +187,7 @@ export class UploadModalComponent implements OnInit {
         })
         console.error(err);
       }
-    });
+    })
   }
 
   onDragOver(event: UIEvent) {

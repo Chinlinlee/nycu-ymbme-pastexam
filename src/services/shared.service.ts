@@ -19,8 +19,8 @@ export class SharedService {
     private isMobileItem = new BehaviorSubject<boolean>(false);
     public isMobileItem$ = this.isMobileItem.asObservable();
 
-    private isUploadFileFinished = new BehaviorSubject<boolean>(false);
-    public isUploadFileFinished$ = this.isUploadFileFinished.asObservable();
+    private isUploadFileChanged = new BehaviorSubject<boolean>(false);
+    public isUploadFileChanged$ = this.isUploadFileChanged.asObservable();
 
     setCourseItem(value) {
         this.courseItem.next(value);
@@ -30,8 +30,8 @@ export class SharedService {
         this.isMobileItem.next(value);
     }
 
-    setIsUploadFileFinished(value: boolean) {
-        this.isUploadFileFinished.next(value);
+    setIsUploadFileChanged(value: boolean) {
+        this.isUploadFileChanged.next(value);
     }
 
     setUserItem(value: INYCUUser) {

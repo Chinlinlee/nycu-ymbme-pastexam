@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { TokenService } from 'src/services/token.service';
 import { INYCUUser } from '../../models/nycu.user.model';
 import { CourseService } from '../../services/course.service';
@@ -29,6 +30,8 @@ export class PastexamPage implements OnInit {
   pastexamAndNoteList: Array<IPastexam> = [];
 
   isMobile: boolean = false;
+  isMobileSubscription: Subscription;
+  isUploadFileChangedSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -49,39 +52,6 @@ export class PastexamPage implements OnInit {
         }
       }
     });
-    
-    this.sharedService.courseItem$.subscribe({
-      next: (data)=> {
-        if (!(data as Array<any>).length) {
-          this.courseService.getAllCourse()
-          .subscribe({
-            next: (courseData)=> {
-              this.sharedService.setCourseItem(courseData);
-              this.courseList = courseData;
-              this.courseName = this.getCurrentCourseName();
-            }
-          });
-        } else {
-          this.courseList = (data as Array<ICourse>);
-          this.courseName = this.getCurrentCourseName();
-        }
-      }
-    }).unsubscribe();
-    if (!this.courseId) return;
-    this.getPastexamList();
-    this.sharedService.isUploadFileFinished$.subscribe({
-      next : (isUploadFileFinished)=> {
-        if (isUploadFileFinished) {
-          this.getPastexamList();
-        }
-      }
-    });
-
-    this.sharedService.isMobileItem$.subscribe({
-      next: (isMobile) => {
-        this.isMobile = isMobile;
-      }
-    });
   }
 
   getCurrentCourseName() {
@@ -90,12 +60,14 @@ export class PastexamPage implements OnInit {
   }
 
   getPastexamList () {
+    if (!this.courseId) return;
     this.pastexamService.getPastexamByCourseId(this.courseId).subscribe({
       next: (data)=> {
         this.pastexamAndNoteList = data.map(v=> {
           v["isShowMore"] = false;
           return v;
         });
+        this.sharedService.setIsUploadFileChanged(false);
       }
     });
   }
@@ -128,6 +100,7 @@ export class PastexamPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    //get user profile
     if (myConfig.ENV.isProduction) {
       this.tokenService.getTokenStatus().subscribe(
         (profile)=> {
@@ -139,6 +112,52 @@ export class PastexamPage implements OnInit {
         }
       )
     }
+    //get course items when course items empty
+    this.sharedService.courseItem$.subscribe({
+      next: (data)=> {
+        if (!(data as Array<any>).length) {
+          this.courseService.getAllCourse()
+          .subscribe({
+            next: (courseData)=> {
+              this.sharedService.setCourseItem(courseData);
+              this.courseList = courseData;
+              this.courseName = this.getCurrentCourseName();
+            }
+          });
+        } else {
+          this.courseList = (data as Array<ICourse>);
+          this.courseName = this.getCurrentCourseName();
+        }
+      }
+    }).unsubscribe();
+
+    //get past exam item by course id
+    this.getPastexamList();
+
+    //listen isUploadFileChanged
+    //refresh data after uploading, deleting
+    this.isUploadFileChangedSubscription = this.sharedService.isUploadFileChanged$
+    .subscribe({
+      next : (isUploadFileChanged)=> {
+        if (isUploadFileChanged) {
+          this.getPastexamList();
+        }
+      }
+    });
+
+    //listen is mobile
+    //detect is mobile size when resizing window or first enter page
+    this.isMobileSubscription = this.sharedService.isMobileItem$.subscribe({
+      next: (isMobile) => {
+        this.isMobile = isMobile;
+      }
+    });
+
+  }
+
+  ionViewDidLeave() {
+    this.isUploadFileChangedSubscription.unsubscribe();
+    this.isMobileSubscription.unsubscribe();
   }
 
   doRefresh(event) {
