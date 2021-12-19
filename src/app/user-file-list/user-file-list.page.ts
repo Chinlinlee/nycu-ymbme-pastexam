@@ -100,6 +100,8 @@ export class UserFileListPage implements OnInit {
           this.router.navigate(["home"]);
         }
       )
+    } else {
+      this.getUserPastexamAndNoteList();
     }
 
     //get course items when course items empty
@@ -145,5 +147,5 @@ export class UserFileListPage implements OnInit {
   doRefresh(event) {
     window.location.reload();
   }
-  
+
 }
