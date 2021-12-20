@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { TokenService } from 'src/services/token.service';
+import Swal from 'sweetalert2';
 import { INYCUUser } from '../../models/nycu.user.model';
 import { CourseService } from '../../services/course.service';
 import { SharedService } from '../../services/shared.service';
@@ -81,16 +82,58 @@ export class PastexamPage implements OnInit {
   }
 
   async onBtnDownloadClick (id:number) {
+    const myToast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
+      timerProgressBar: false,
+      showConfirmButton: false
+    });
+    myToast.fire({
+      text: "downloading..."
+    });
     this.pastexamService.downloadPastexamByCourse(id).subscribe({
       next:  (data)=> {
-        let b = data as Blob;
-        console.log(data);
+        let contentDisposition = data.headers.get('content-disposition');
+        let filename = "";
+        if (contentDisposition.includes("UTF-8")) {
+          let utf8Filename = contentDisposition
+          .split(';')[2]
+          .split('filename*')[1]
+          .split('=')[1]
+          .trim()
+          .split("'")
+          .pop();
+          filename = decodeURIComponent(utf8Filename);
+        } else {
+          filename = contentDisposition
+                    .split(';')[1]
+                    .split('filename')[1]
+                    .split('=')[1]
+                    .trim()
+                    .match(/"([^"]+)"/)[1];
+        }
+        let b = data.body;
         let downloadUrl = window.URL.createObjectURL(b);
         let link = document.createElement('a');
         link.href = downloadUrl;
-        link.target = "_new";
+        link.download = filename;
         link.click();
         link.remove();
+        myToast.close();
+      } ,
+      error: (err)=> {
+        myToast.close();
+        if (err.status === 403) {
+          this.tokenService.deleteSession().subscribe();
+          this.router.navigate(["home"]);
+        } else {
+          Swal.fire({
+            title: "出錯啦!!" ,
+            text: "可能是檔案已被刪除，如再發生請聯絡作者",
+            icon: "error"
+          });
+          this.getPastexamList();
+        }
       }
     });
   }

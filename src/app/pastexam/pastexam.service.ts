@@ -23,7 +23,8 @@ export class PastexamService {
 
   downloadPastexamByCourse(id: number) {
     return this.http.get(`${myConfig.ENV.apiBase}/uploaded-data/download/${id}`, {
-      responseType: "blob" as "json"
+      responseType: "blob" ,
+      observe: 'response'
     });
   }
 }
