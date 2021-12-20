@@ -74,6 +74,10 @@ body {
         .ng-select-container {
             background: rgba(123, 123, 123, 0.34);
             border: 1px solid gray !important;
+            color: rgb(239, 239, 241);
+        }
+        .ng-select.ng-select-opened > .ng-select-container {
+            color: black;
         }
         .rounded-input {
             --ion-text-color: rgb(239, 239, 241);
