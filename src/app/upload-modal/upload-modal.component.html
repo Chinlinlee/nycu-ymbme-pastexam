@@ -23,8 +23,12 @@
             </ion-col>
 
             <ion-col sizeLg="4" sizeSm="12" sizeXs="12">
-                <ng-select [items]="courseList" bindLabel="name" placeholder="選擇課程*" [(ngModel)]="selectedCourse"
-                    (change)="onSelectedCourseChange()">
+                <ng-select
+                [(ngModel)]="selectedCourse"
+                (change)="onSelectedCourseChange()"
+                placeholder="選擇課程*">
+                    <ng-option 
+                    *ngFor="let course of courseList" [value]="course">{{course.name}}-{{ MY_GRADE_TYPE[course.gradeType].name }}</ng-option>
                 </ng-select>
             </ion-col>
 

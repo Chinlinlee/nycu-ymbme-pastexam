@@ -1,11 +1,11 @@
 <ion-content>
   <ion-list>
     <ion-list-header *ngIf="user">{{ user.username }}</ion-list-header>
-    <ion-item button *ngIf="user" (click)="logout();">
-      登出<ion-icon name="log-out-outline" slot="start"></ion-icon>
-    </ion-item>
     <ion-item button *ngIf="user" (click)="navigateToUserFileList();">
       個人上傳檔案列表<ion-icon name="file-tray-full-outline" slot="start"></ion-icon>
+    </ion-item>
+    <ion-item button *ngIf="user" (click)="logout();">
+      登出<ion-icon name="log-out-outline" slot="start"></ion-icon>
     </ion-item>
     <ion-item lines="none" detail="false" button (click)="dismiss()">Close</ion-item>
   </ion-list>

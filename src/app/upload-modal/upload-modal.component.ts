@@ -14,7 +14,38 @@ import { UploadModalService } from './upload-modal.service';
   styleUrls: ['./upload-modal.component.scss'],
 })
 export class UploadModalComponent implements OnInit {
-
+  MY_GRADE_TYPE = {
+    "1": {
+        name: "大一",
+        isOpen: false,
+        data:[]
+    },
+    "2": {
+        name: "大二",
+        isOpen: false,
+        data:[]
+    },
+    "3": {
+        name: "大三",
+        isOpen: false,
+        data:[]
+    },
+    "4": {
+        name: "大四",
+        isOpen: false,
+        data:[]
+    },
+    "5": {
+        name: "碩一",
+        isOpen: false,
+        data:[]
+    },
+    "6": {
+        name: "碩二",
+        isOpen: false,
+        data:[]
+    }
+  };
   semNo: Array<number> = [
     110,
     109,
