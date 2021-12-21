@@ -26,7 +26,7 @@
                                 <ion-col size="3">老師</ion-col>
                                 <ion-col size="4">檔案名稱</ion-col>
                             </ion-row>
-                            <div *ngFor="let pastexam of pastexamAndNoteList">
+                            <div *ngFor="let pastexam of viewPastexamAndNoteList">
                                 <ion-row
                                     class="pastexam-list-item ion-text-center ion-align-items-center ion-padding-top">
                                     <ion-col size="1">
@@ -68,7 +68,7 @@
                             </div>
                         </ion-grid>
                         <ion-list *ngIf="isMobile">
-                            <div *ngFor="let pastexam of pastexamAndNoteList">
+                            <div *ngFor="let pastexam of viewPastexamAndNoteList">
                                 <ion-item class="ion-no-padding ion-padding-start">
                                     <ion-label>
                                         <h2 class="ion-text-wrap">
@@ -134,4 +134,10 @@
 
         </ion-row>
     </ion-grid>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

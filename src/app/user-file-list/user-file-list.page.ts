@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { INYCUUser } from '../../models/nycu.user.model';
 import { CourseService } from '../../services/course.service';
@@ -25,6 +24,7 @@ export class UserFileListPage implements OnInit {
     email: "",
   };
   userPastexamAndNoteList: Array<IPastexam> = [];
+  viewUserPastexamAndNoteList: Array<IPastexam> = [];
 
   isMobile: boolean = false;
   isMobileSubscription: Subscription;
@@ -60,6 +60,7 @@ export class UserFileListPage implements OnInit {
           return v;
         });
         this.sharedService.setIsUploadFileChanged(false);
+        this.viewUserPastexamAndNoteList = this.userPastexamAndNoteList.slice(0,10);
       }
     });
   }
@@ -146,6 +147,19 @@ export class UserFileListPage implements OnInit {
 
   doRefresh(event) {
     window.location.reload();
+  }
+
+  loadMoreData(event?) {
+    if (this.viewUserPastexamAndNoteList.length < this.userPastexamAndNoteList.length) {
+      setTimeout(() => {
+        let viewItemLength = this.viewUserPastexamAndNoteList.length;
+        let nextItem = this.userPastexamAndNoteList.slice(viewItemLength , viewItemLength + 10);
+        this.viewUserPastexamAndNoteList.push(...nextItem);
+        event.target.complete();
+      }, 500);
+    } else {
+      event.target.disabled = true;
+    }
   }
 
 }

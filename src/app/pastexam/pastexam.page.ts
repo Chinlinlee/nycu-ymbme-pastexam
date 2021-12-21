@@ -29,6 +29,7 @@ export class PastexamPage implements OnInit {
   courseList: Array<ICourse>;
   course: ICourse;
   pastexamAndNoteList: Array<IPastexam> = [];
+  viewPastexamAndNoteList: Array<IPastexam> = [];
 
   isMobile: boolean = false;
   isMobileSubscription: Subscription;
@@ -69,6 +70,7 @@ export class PastexamPage implements OnInit {
           return v;
         });
         this.sharedService.setIsUploadFileChanged(false);
+        this.viewPastexamAndNoteList = this.pastexamAndNoteList.slice(0, 10);
       }
     });
   }
@@ -206,5 +208,17 @@ export class PastexamPage implements OnInit {
   doRefresh(event) {
     window.location.reload();
   }
-  
+  loadMoreData(event?) {
+    if (this.viewPastexamAndNoteList.length < this.pastexamAndNoteList.length) {
+      setTimeout(() => {
+        let viewItemLength = this.viewPastexamAndNoteList.length;
+        let nextItem = this.pastexamAndNoteList.slice(viewItemLength , viewItemLength + 10);
+        this.viewPastexamAndNoteList.push(...nextItem);
+        event.target.complete();
+      }, 500);
+    } else {
+      event.target.disabled = true;
+    }
+  }
+
 }
