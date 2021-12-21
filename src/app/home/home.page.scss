@@ -60,6 +60,15 @@
   }
 }
 
+@media screen and (max-height: 600px){
+  .main-content {
+    margin-top: 15%;
+  }
+  .side-nav{ 
+    margin-top: 0px;
+  }
+}
+
 @media  (prefers-color-scheme: dark) {
   .ymbme-logo {
     background-color: white;
