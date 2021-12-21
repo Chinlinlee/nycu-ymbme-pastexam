@@ -65,6 +65,10 @@ export class AppComponent {
         "/pastexam": {
             title: "YMBME考古題&筆記 | 主頁面",
             description: "提供陽明醫工系上傳、參考考古題以及筆記的系統"
+        },
+        "/about" : {
+            title: "YMBME考古題&筆記 | 操作手冊",
+            description: "陽明醫工考古題and筆記系統hackmd操作手冊"
         }
     }
     constructor(

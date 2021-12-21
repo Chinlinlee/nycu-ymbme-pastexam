@@ -8,10 +8,17 @@
                     <ion-button (click)="closeMenu();" slot="end" fill="clear" *ngIf="isMobile;">
                         <ion-icon name="close" color="danger" tappable></ion-icon>
                     </ion-button>
-
                 </ion-toolbar>
             </ion-header>
             <ion-content>
+                <ion-menu-toggle autoHide="false">
+                    <ion-item button routerLink="/about">
+                        <ion-label>
+                            <ion-icon slot="start" name="document-text"></ion-icon>
+                            操作手冊
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
                 <div *ngFor="let item of MY_GRADE_TYPE | keyvalue">
                     <ion-item button (click)="onSideMenuItemClick(item.key)" class="side-menu-item" detail="false">
                         <ion-label>{{ item.value.name }}</ion-label>

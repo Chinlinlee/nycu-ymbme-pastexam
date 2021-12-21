@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'user-file-list',
     loadChildren: () => import('./user-file-list/user-file-list.module').then( m => m.UserFileListPageModule)
+  },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
   }
 ];
 
