@@ -1,3 +1,4 @@
+import { LocationStrategy } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { INYCUUser } from 'src/models/nycu.user.model';
@@ -101,12 +102,13 @@ export class UploadModalComponent implements OnInit {
   };
 
   user: INYCUUser;
-  
+
   constructor(
     private modalController: ModalController,
     private sharedService: SharedService,
     private uploadModalService: UploadModalService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private location: LocationStrategy
   ) { 
     
   }
@@ -321,6 +323,19 @@ export class UploadModalComponent implements OnInit {
 
   ionViewDidEnter() {
     this.uploadRes.progress = 0;
+    history.pushState(null, null, window.location.href + "#modal");  
+    this.location.onPopState(() => {
+      this.modalDismiss();
+      let originalLocation = window.location.href.replace(/#modal/gi , "");
+      history.pushState(null, null , originalLocation);
+    });
+  }
+
+  ionViewDidLeave() {
+    if (window.location.href.includes("#modal")) {
+      let originalLocation = window.location.href.replace(/#modal/gi , "");
+      history.pushState(null, null , originalLocation);
+    }
   }
 
 }

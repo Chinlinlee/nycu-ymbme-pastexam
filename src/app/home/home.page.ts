@@ -13,7 +13,7 @@ export class HomePage {
   constructor(
     private menuController: MenuController
   ) {
-    this.menuController.enable(false, "menu-content");
+    
   }
 
   onGotoLoginClick() {
@@ -24,5 +24,9 @@ export class HomePage {
     ]
     let oAuthUrl = `https://id.nycu.edu.tw/o/authorize/?${params.join("&")}`;
     window.location.href = oAuthUrl;
+  }
+
+  ionViewDidEnter() {
+    this.menuController.enable(false, "menu-content");
   }
 }
